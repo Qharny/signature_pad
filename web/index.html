@@ -1,13 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signature Pad</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .signature-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #signatureCanvas {
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            cursor: crosshair;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #clearButton {
+            background-color: #e74c3c;
+        }
+        #clearButton:hover {
+            background-color: #c0392b;
+        }
+        #saveButton {
+            background-color: #2ecc71;
+        }
+        #saveButton:hover {
+            background-color: #27ae60;
+        }
+    </style>
 </head>
 <body>
-  <canvas id="signatureCanvas" width="400" height="200" style="border:1px solid #000000;"></canvas>
-  <script type="application/dart" src="main.dart"></script>
-  <script src="packages/browser/dart.js"></script>
+    <div class="signature-container">
+        <canvas id="signatureCanvas" width="500" height="300"></canvas>
+        <div class="button-container">
+            <button id="clearButton">Clear</button>
+            <button id="saveButton">Save as Image</button>
+        </div>
+    </div>
+    <script defer src="main.dart.js"></script>
 </body>
 </html>

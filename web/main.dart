@@ -1,4 +1,5 @@
 import 'dart:html';
+import 'dart:js' as js;
 
 void main() {
   CanvasElement canvas = querySelector('#signatureCanvas') as CanvasElement;
@@ -8,32 +9,34 @@ void main() {
   num lastX = 0;
   num lastY = 0;
 
-  void startDrawing(Event e) {
+  canvas.onMouseDown.listen((MouseEvent e) {
     isDrawing = true;
-    MouseEvent mouseEvent = e as MouseEvent;
-    lastX = mouseEvent.offset.x;
-    lastY = mouseEvent.offset.y;
-  }
+    [lastX, lastY] = [e.offset.x, e.offset.y];
+  });
 
-  void draw(Event e) {
+  canvas.onMouseMove.listen((MouseEvent e) {
     if (!isDrawing) return;
-    MouseEvent mouseEvent = e as MouseEvent;
-    
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
-    ctx.lineTo(mouseEvent.offset.x, mouseEvent.offset.y);
+    ctx.lineTo(e.offset.x, e.offset.y);
     ctx.stroke();
+    [lastX, lastY] = [e.offset.x, e.offset.y];
+  });
 
-    lastX = mouseEvent.offset.x;
-    lastY = mouseEvent.offset.y;
-  }
-
-  void stopDrawing(Event e) {
+  canvas.onMouseUp.listen((MouseEvent e) {
     isDrawing = false;
-  }
+  });
 
-  canvas.onMouseDown.listen(startDrawing);
-  canvas.onMouseMove.listen(draw);
-  canvas.onMouseUp.listen(stopDrawing);
-  canvas.onMouseLeave.listen(stopDrawing);
+  canvas.onMouseLeave.listen((MouseEvent e) {
+    isDrawing = false;
+  });
+
+  querySelector('#clearButton')!.onClick.listen((Event e) {
+    ctx.clearRect(0, 0, canvas.width!, canvas.height!);
+  });
+
+  querySelector('#saveButton')!.onClick.listen((Event e) {
+    final dataUrl = canvas.toDataUrl('image/png');
+    js.context.callMethod('open', [dataUrl, '_blank']);
+  });
 }

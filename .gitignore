@@ -2,3 +2,6 @@
 # Created by `dart pub`
 .dart_tool/
 build/
+main.dart.js
+main.dart.js.map
+main.dart.js.deps
